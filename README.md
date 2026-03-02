@@ -6,7 +6,7 @@ a) Určete v posloupnosti délku maximálního souvislého vybalancovaného úse
 b) Najděte v posloupnosti maximální souvislý vybalancovaný úsek, tzn. určete pozici jeho začátku a konce.
 c) Vypište maximální souvislý vybalancovaný úsek posloupnosti, tzn. vypište prvky posloupnosti, které ho tvoří.
 ## Úvaha
-Z hlediska algoritmizace stačí řešit pouze úlohu B. Řešení úlohy A je triviální (rozdíl indexů z úlohy B) a úloha C je prakticky výhradně věcí syntaxe jazyka.
+Z hlediska algoritmizace stačí řešit pouze úlohu B. Řešení úlohy A je triviální (rozdíl indexů z úlohy B) a úloha C je prakticky výhradně věcí syntaxe jazyka. Úloha má smysl pro pole délky 2 a větší, pro jednoprvkové pole nemá smysl (žádný balancovaný úsek neexistuje).
 
 # Algoritmus 1 (hrubá síla)
 V poli budeme postupně zkoušet všechny podposloupnosti a zkoumat, zda jsou vybalancované. Zkoušet budeme jen ty se sudou délkou (lichá délka nemůže být balancovanou nikdy). Zvolíme si délku a vyzkoušíme všechny podposloupnosti (1..D, 2..D+1, 3..D+2 atd., až dokud D+offset nepřekročí délku pole). Každou podposloupnost otestujeme na počet kladných a záporných čísel a při shodě máme řešení, při neshodě zkusíme další podposloupnost a pokud žádnou shodu nenalezneme, zmenšíme délku o 2 a postup opakujeme. Pokud nenalezneme nic ani na délce 2, balancovaná podposloupnost neexistuje a vypíšeme nulu.
