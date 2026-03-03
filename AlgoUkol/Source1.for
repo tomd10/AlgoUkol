@@ -2,7 +2,7 @@
       IMPLICIT NONE
       
       INTEGER, ALLOCATABLE :: ARR(:)
-      INTEGER :: N = 24000      
+      INTEGER :: N = 1000
       INTEGER :: MIN = -100, MAX = 100
       
       INTEGER :: START, FINISH
@@ -10,7 +10,7 @@
       ALLOCATE(ARR(N))
       CALL FILL_ARRAY(ARR, N, MIN, MAX)    
       
-C      PRINT*, ARR
+C     PRINT*, ARR
       
 C     TEST ALGORITMU 1
       PRINT*, '------ALGORITMUS 1------'
@@ -32,10 +32,9 @@ C     TEST ALGORITMU 2
           PRINT*, "PODPOLE NALEZENO S DELKOU: ", (FINISH - START + 2)
           PRINT*, "INDEXY PODPOLE: ", START, FINISH
           CALL PRINT_SLICE(ARR, START, FINISH)
-      END IF
-      
-      
+      END IF 
       PAUSE
+      
       CONTAINS
       
 C
@@ -72,6 +71,7 @@ C             SHODA NALEZENA
           END DO
           SLICE_SIZE = SLICE_SIZE - 2
       END DO 
+      
 C     SHODA NENALEZENA NIKDY      
       START = 0
       FINISH = 0
@@ -90,7 +90,6 @@ C
           
 C         INDEX POLE = PREFIXOV› SOU»ET, HODNOTA V POLI = V›SKYT (POZICE) V POLI ARR
 C         HODNOTA -2 ZNA»Õ "NIKDY JSME NEVIDÃLI"
-
           PREFIX = -2
           
 C         SOUCET 0 NA POZICI "PRED POLEM" (INDEX 0 JE SOUCET 0, HODNOTA 0 JE INDEX V ARR)
@@ -115,13 +114,7 @@ C             KOUKNEME SE KDE A ZKONTROLUJEME, JESTLI NOVA DELKA JE LEPSI
                   END IF
               END IF
           END DO
-          
-C     PREDVYPOCET POLE
-
-      
-      
-      END SUBROUTINE ALGO2
-      
+      END SUBROUTINE ALGO2      
       
 C
 C     POMOCNA RUTINA PRO SPOCITANI KLADNYCH A ZAPORNYCH CISEL V PODPOLI
@@ -140,11 +133,12 @@ C
               ELSE
                   NEG = NEG + 1
               END IF
-          END DO
-
-          
+          END DO   
       END SUBROUTINE COUNT_SLICE_POSNEG
       
+C
+C     POMOCNA RUTINA PRO NAPLNENI POLE NAHODNYMI CISLY
+C
       SUBROUTINE FILL_ARRAY(ARR, N, MIN, MAX)
           INTEGER, INTENT(IN)     :: N, MIN, MAX
           INTEGER, INTENT(OUT)    :: ARR(N)
@@ -159,6 +153,9 @@ C
           END DO
       END SUBROUTINE FILL_ARRAY
       
+C
+C     POMOCNA RUTINA PRO VYPIS USEKU POLE
+C
       SUBROUTINE PRINT_SLICE(ARR, START, FINISH)
           INTEGER, INTENT(IN) :: START, FINISH
           INTEGER, INTENT(IN) :: ARR(:)
