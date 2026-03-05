@@ -2,7 +2,7 @@
       IMPLICIT NONE
       
       INTEGER, ALLOCATABLE :: ARR(:)
-      INTEGER :: N = 5
+      INTEGER :: N = 50
       INTEGER :: MIN = -100, MAX = 100
       
       INTEGER :: START, FINISH
@@ -134,9 +134,9 @@ C
           START = 0
           FINISH = 0
           
-C         INDEX POLE = PREFIXOV› SOU»ET, HODNOTA V POLI = V›SKYT (POZICE) V POLI ARR
-C         HODNOTA -2 ZNA»Õ "NIKDY JSME NEVIDÃLI"
-          PREFIX = -2
+C         INDEX POLE = PREFIXOVY SOU»ET, HODNOTA V POLI = V›SKYT (POZICE) V POLI ARR
+C         HODNOTA -1 ZNACI "NIKDY JSME NEVIDELI" (ONEN PREFIXOVY SOUCET)
+          PREFIX = -1
           
 C         SOUCET 0 NA POZICI "PRED POLEM" (INDEX 0 JE SOUCET 0, HODNOTA 0 JE INDEX V ARR)
           PREFIX(0) = 0
@@ -148,8 +148,8 @@ C         SOUCET 0 NA POZICI "PRED POLEM" (INDEX 0 JE SOUCET 0, HODNOTA 0 JE IND
                   SUM = SUM - 1
               END IF
               
-C             PREFIX JSME NEVIDELI - ULOZIME JEHO INDEX
-              IF (PREFIX(SUM) == -2) THEN
+C             PREFIX JSME JESTE NEVIDELI - ULOZIME JEHO INDEX
+              IF (PREFIX(SUM) == -1) THEN
                   PREFIX(SUM) = I
               ELSE
 C             PREFIX JSME UZ VIDELI
