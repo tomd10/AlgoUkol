@@ -2,7 +2,7 @@
       IMPLICIT NONE
       
       INTEGER, ALLOCATABLE :: ARR(:)
-      INTEGER :: N = 1000
+      INTEGER :: N = 5
       INTEGER :: MIN = -100, MAX = 100
       
       INTEGER :: START, FINISH
@@ -18,7 +18,7 @@ C     TEST ALGORITMU 1
       IF (START == 0 .AND. FINISH == 0) THEN
           PRINT*, "PODPOLE NEEXISTUJE"
       ELSE
-          PRINT*, "PODPOLE NALEZENO S DELKOU: ", (FINISH - START + 2)
+          PRINT*, "PODPOLE NALEZENO S DELKOU: ", (FINISH - START + 1)
           PRINT*, "INDEXY PODPOLE: ", START, FINISH
           CALL PRINT_SLICE(ARR, START, FINISH)
       END IF
@@ -29,7 +29,18 @@ C     TEST ALGORITMU 2
       IF (START == 0 .AND. FINISH == 0) THEN
           PRINT*, "PODPOLE NEEXISTUJE"
       ELSE
-          PRINT*, "PODPOLE NALEZENO S DELKOU: ", (FINISH - START + 2)
+          PRINT*, "PODPOLE NALEZENO S DELKOU: ", (FINISH - START + 1)
+          PRINT*, "INDEXY PODPOLE: ", START, FINISH
+          CALL PRINT_SLICE(ARR, START, FINISH)
+      END IF 
+      
+C     TEST ALGORITMU 3
+      PRINT*, '------ALGORITMUS 3------'
+      CALL ALGO3(ARR, N, START, FINISH)
+      IF (START == 0 .AND. FINISH == 0) THEN
+          PRINT*, "PODPOLE NEEXISTUJE"
+      ELSE
+          PRINT*, "PODPOLE NALEZENO S DELKOU: ", (FINISH - START + 1)
           PRINT*, "INDEXY PODPOLE: ", START, FINISH
           CALL PRINT_SLICE(ARR, START, FINISH)
       END IF 
@@ -75,12 +86,47 @@ C             SHODA NALEZENA
 C     SHODA NENALEZENA NIKDY      
       START = 0
       FINISH = 0
-      END SUBROUTINE ALGO1
+      END SUBROUTINE ALGO1      
       
 C
-C     ALGORITMUS 2 - PREFIX
+C     ALGORITMUS 2 - PREFIX HRUBA SILA
 C     
-      SUBROUTINE ALGO2(ARR, N, START, FINISH)
+      SUBROUTINE ALGO2(ARR, N, START, FINISH)      
+          INTEGER, INTENT(IN)     :: N, ARR(N)
+          INTEGER, INTENT(OUT)    :: START, FINISH
+          INTEGER :: PREFIX(N), I, J, SUM = 0
+          
+          START = 0
+          FINISH = 0
+          
+C         PREDPOCET POLE SOUCTU         
+          DO I = 1, N
+              IF (ARR(I) >= 0) THEN
+                  SUM = SUM + 1
+              ELSE
+                  SUM = SUM - 1
+              END IF
+              PREFIX(I) = SUM
+          END DO
+
+C         HLEDANI NEJVICE VZDALENYCH SHODNYCH DVOJIC
+          DO I = 1, N
+              DO J = I + 1, N
+                  IF (PREFIX(I) == PREFIX(J)) THEN
+                      IF (J - I > FINISH - START) THEN
+                          START = I + 1
+                          FINISH = J
+                      END IF
+                  END IF
+              END DO
+          END DO
+          
+      END SUBROUTINE ALGO2
+      
+C
+C     ALGORITMUS 3 - PREFIX
+C     
+      SUBROUTINE ALGO3(ARR, N, START, FINISH)
           INTEGER, INTENT(IN)     :: N, ARR(N)
           INTEGER, INTENT(OUT)    :: START, FINISH
           INTEGER :: I, SUM = 0
@@ -114,7 +160,7 @@ C             KOUKNEME SE KDE A ZKONTROLUJEME, JESTLI NOVA DELKA JE LEPSI
                   END IF
               END IF
           END DO
-      END SUBROUTINE ALGO2      
+      END SUBROUTINE ALGO3
       
 C
 C     POMOCNA RUTINA PRO SPOCITANI KLADNYCH A ZAPORNYCH CISEL V PODPOLI
